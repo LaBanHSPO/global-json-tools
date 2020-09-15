@@ -1,0 +1,6 @@
+*.xlsx
+*.csv
+*.json
+yarn.lock
+package-lock.json
+node_modules
