@@ -5,13 +5,15 @@ const fetch = require('node-fetch');
 const Bluebird = require('bluebird');
  
 fetch.Promise = Bluebird;
-const config = require('../env.config.json');
 
 try {
     const cli = process.argv[2];
+    const cfPath = process.argv[3];
+    const configContent = fs.readFileSync(cfPath, 'utf-8');
+    const config = JSON.parse(configContent);
     console.log('CLI: ', cli)
     const files = process.argv;
-    files.splice(0,3);
+    files.splice(0, 4);
     console.log('Received files', files)
     const fileContents = [];
     for (const f of files) {
