@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
+const path = require('path');
 const fetch = require('node-fetch');
 const Bluebird = require('bluebird');
  
@@ -8,20 +9,27 @@ fetch.Promise = Bluebird;
 
 try {
     const cli = process.argv[2];
-    const cfPath = process.argv[3];
-    const configContent = fs.readFileSync(cfPath, 'utf-8');
+	if (process.argv.length < 4) {
+		console.log(`Usage: 
+			jsonto s1/s2 f/f1.txt f2.ext
+		`)
+		system.exit(0);
+	}
+    const configContent = fs.readFileSync(path.join(process.cwd(), 'env.config.json'), 'utf-8');
     const config = JSON.parse(configContent);
-    console.log('CLI: ', cli)
+    console.log('CLI: ', cli,)
     const files = process.argv;
-    files.splice(0, 4);
+    files.splice(0, 3);
     console.log('Received files', files)
     const fileContents = [];
     for (const f of files) {
-        const existedFile =fs.existsSync(f);
+		const filePath = path.join(process.cwd(), f);
+        const existedFile =fs.existsSync(filePath);
         if (!existedFile) {
             throw new Error('File is not exist')
         }
-        fileContents.push( fs.readFileSync(f, 'utf-8'));
+		const fContent = fs.readFileSync(filePath, 'utf-8');
+        fContent && fileContents.push(fContent);
     }
         
     const body = { textLineArr: fileContents };
