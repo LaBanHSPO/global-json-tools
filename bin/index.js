@@ -4,6 +4,12 @@ const fs = require('fs');
 const Excel = require('exceljs')
 
 try {
+	if (process.argv.length < 4) {
+		console.log(`============
+Usage: jsonto input.json out.xlsx
+============`);
+		process.exit(0);
+	}
     const inputFile = process.argv[2];
     const outputPath = process.argv[3];
     const existedFile =fs.existsSync(inputFile);

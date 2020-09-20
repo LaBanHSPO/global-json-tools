@@ -10,10 +10,10 @@ fetch.Promise = Bluebird;
 try {
     const cli = process.argv[2];
 	if (process.argv.length < 4) {
-		console.log(`Usage: 
-			jsonto s1/s2 f/f1.txt f2.ext
-		`)
-		system.exit(0);
+		console.log(`============
+Usage: jsonu s1/s2 f/f1.txt f2.ext
+============`)
+		process.exit(0);
 	}
     const configContent = fs.readFileSync(path.join(process.cwd(), 'env.config.json'), 'utf-8');
     const config = JSON.parse(configContent);
