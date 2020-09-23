@@ -16,41 +16,41 @@ const makeValue = (s) => {
 }
 
 try {
-	if (process.argv.length < 5) {
+    console.log(process.argv)
+	if (process.argv.length < 4) {
 		console.log(`=======Insert Many
-Usage: jsoni tbl_name in.xlsx out.txt
+Usage: jsonsync tbl_name in.json out.txt
 ============`)
 		process.exit(0);
 	}
-  
+
     const table = process.argv[2];   
     const fileIn = process.argv[3];
     const fileOut = process.argv[4];
 
-    const workbook = new Excel.Workbook();
-    const options = {
-          dateFormats: ['DD/MM/YYY hh:mm:ss']
+    const fileInContent = fs.readFileSync(path.join(process.cwd(), fileIn), 'utf-8');
+    let parsed = JSON.parse(fileInContent);
+    let headers = Object.keys(parsed[0]);
+    if (!Array.isArray(parsed)) throw new Error('Invalid input array');
+    if (Array.isArray(parsed[0])) {
+        parsed = parsed[0];
+        headers = Object.keys(parsed[0]);
     }
-
-    workbook.xlsx.readFile(fileIn, options).then(() => {
-     
-        const worksheet = workbook.worksheets[0];  
-        let headers = worksheet.getRow(1).values;
-      
-        console.log('Processing sheet: ', fileIn, worksheet.name, headers);
+    console.log('Processing: ', fileIn, parsed.length, headers);
 
         const prepareData = [];
-        for (let rowIndex = 2; rowIndex <= worksheet.lastRow.number; rowIndex++) {
-            const cursorRow = worksheet.getRow(rowIndex).values;
-            const row = headers.reduce((total, current, idx) => {
+
+        for (let rowIndex = 0; rowIndex < parsed.length; rowIndex++) {
+            const cursorRow = parsed[rowIndex];
+            const row = headers.reduce((total, current) => {
                 if (!current) return total;
 
                 const field = String(current).split('__')[0];
                 const ctl = String(current).split('__')[1];
-                if (ctl === 'D') {
-                     total[field] = `TO_DATE('${dateUtil(cursorRow[idx]).utc().format('DD/MM/YYYY hh:mm:ss')}', 'DD/MM/YYYY HH24:MI:SS')`;
+                if (ctl === 'D' || ['000Z', '2020-', '2021-'].some(v => String(cursorRow[field]).includes(v))) {
+                     total[field] = `TO_DATE('${dateUtil(cursorRow[field]).utc().format('DD/MM/YYYY hh:mm:ss')}', 'DD/MM/YYYY HH24:MI:SS')`;
                 } else {
-                     total[field] = cursorRow[idx];
+                     total[field] = cursorRow[field];
                 }
                 return total;
             }, {});
@@ -64,7 +64,7 @@ Usage: jsoni tbl_name in.xlsx out.txt
               ${insertBody.join('\n')}
             SELECT * FROM dual`;
         fs.writeFileSync(path.join(process.cwd(), fileOut), insertStmt);
-    });
+
 } catch (err) {
     console.log('[ERROR]', err.message);
     console.log(err);
