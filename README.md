@@ -2,7 +2,7 @@
 
 ## Mini tool for better time saving worked in Nodejs runtime
 
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+Node.js cli for everyday uses
 
 ### Install
 ```shell
@@ -11,7 +11,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 
 
 ### Features
-1. Convert JSON file to XLSX for viewer/transfer [exceljs]
+- Convert JSON file to XLSX for viewer/transfer [exceljs]
 
 ```shell
     jsonto in.json result/out.xlsx
@@ -19,9 +19,16 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 
 
 
-2. Request man
+- Request man
 
 ```shell
     jsonu s1/s2 f/f1.txt f2.ext
 ```
+
+
+- Generate INSERT ALL (ORA)
+
+```shell
+    jsoni file_in.xlsx table_name file_out.txt
+``
 
