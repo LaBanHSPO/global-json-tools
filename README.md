@@ -29,6 +29,6 @@ Node.js cli for everyday uses
 - Generate INSERT ALL (ORA)
 
 ```shell
-    jsoni file_in.xlsx table_name file_out.txt
-``
+    jsoni table_name file_in.xlsx file_out.txt
+```
 

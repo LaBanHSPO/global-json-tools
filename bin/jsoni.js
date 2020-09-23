@@ -16,7 +16,7 @@ const makeValue = (s) => {
 }
 
 try {
-	if (process.argv.length < 5) {
+	if (process.argv.length < 6) {
 		console.log(`=======Insert Many
 Usage: jsoni tbl_name in.xlsx 
 ============`)
@@ -26,18 +26,19 @@ Usage: jsoni tbl_name in.xlsx
     const config = JSON.parse(configContent);
     const table = process.argv[3];   
     const fileIn = process.argv[4];
+    const fileOut = process.argv[5];
 
     const workbook = new Excel.Workbook();
     const options = {
           dateFormats: ['DD/MM/YYY hh:mm:ss']
     }
-    console.log('fileIn', fileIn)
+
     workbook.xlsx.readFile(fileIn, options).then(() => {
      
         const worksheet = workbook.worksheets[0];  
         let headers = worksheet.getRow(1).values;
       
-        console.log('Processing sheet: ', worksheet.name, headers);
+        console.log('Processing sheet: ', fileIn, worksheet.name, headers);
 
         const prepareData = [];
         for (let rowIndex = 2; rowIndex <= worksheet.lastRow.number; rowIndex++) {
@@ -63,7 +64,7 @@ Usage: jsoni tbl_name in.xlsx
             INSERT ALL
               ${insertBody.join('\n')}
             SELECT * FROM dual`;
-        fs.writeFileSync(path.join(process.cwd(),'out_ins.txt'), insertStmt);
+        fs.writeFileSync(path.join(process.cwd(), fileOut), insertStmt);
     });
 } catch (err) {
     console.log('[ERROR]', err.message);
