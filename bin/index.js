@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const Excel = require('exceljs')
+const moment = require('moment');
 
 try {
 	if (process.argv.length < 4) {
@@ -48,7 +49,9 @@ Usage: jsonto input.json out.xlsx
         // By using destructuring we can easily dump all of the data into the row without doing much
         // We can add formulas pretty easily by providing the formula property.
         worksheet.addRow({
-            ...e
+            ...e,
+            // GIO_DEN: e.GIO_DEN && moment(e.GIO_DEN).format('DD-MM-YYYY HH:mm'),
+            // GIO_HOANTHANH: e.GIO_HOANTHANH && moment(e.GIO_HOANTHANH).format('DD-MM-YYYY HH:mm')
         });
     });
     console.log('[JSON to XLSX] Writing file ...');
