@@ -1,6 +1,6 @@
 {
   "name": "jsonto",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "homepage": "https://github.com/LaBanHSPO/jsonto",
   "repository": {
     "type": "git",
@@ -11,8 +11,8 @@
   "bin": {
     "jsonto": "./bin/index.js",
     "jsonu": "./bin/jsonu.js",
-	 "jsoni": "./bin/jsoni.js",
-   "jsonsync": "./bin/jsonsync.js"
+    "jsoni": "./bin/jsoni.js",
+    "jsonsync": "./bin/jsonsync.js"
   },
   "scripts": {},
   "author": "bannv",
@@ -20,6 +20,7 @@
   "dependencies": {
     "bluebird": "^3.7.2",
     "exceljs": "^4.1.1",
+    "ioredis": "^4.19.4",
     "moment": "^2.29.0",
     "node-fetch": "^2.6.1"
   }
